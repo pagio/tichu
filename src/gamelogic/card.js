@@ -1,4 +1,4 @@
-function Card() {
+function Card( id ) {
     /*
         --id--
         [ 0, 55 ]
@@ -24,6 +24,7 @@ function Card() {
     */
     this.number = 1;
     this.points = 0;
+    this.set( id );
 };
     
 
@@ -35,7 +36,7 @@ Card.prototype = {
         if ( this.number == 5 ) {
             this.points = 5;
         }
-        if ( this,number == 10 || this.number == 13 ) {
+        if ( this.number == 10 || this.number == 13 ) {
             this.points = 10;
         }
         if ( this.type == 4 && this.number == 1 ) {
