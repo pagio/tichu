@@ -5,7 +5,8 @@ function Deck() {
     }
     
     this.shuffle = function() {
-        //shufle deck   
+        //shufle deck 
+        //TODO  
     };
     this.getCards = function( amount ) {
         var res = [];

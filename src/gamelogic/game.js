@@ -11,6 +11,8 @@ function Game() {
 
 Game.prototype = {
     newRound : function() {
-        
+        var rnd = new Round( this.players );
+        rnd.start();
     }
+    
 };
