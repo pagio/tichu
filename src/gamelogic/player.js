@@ -17,6 +17,22 @@ function Player( id ) {
         cardsWon = cardsWon.concat( newCardsWon );
         return;
     };
+    this.removeCards = function( theCards ) {
+        var ids = [];
+        for ( var i = 0; i < theCards.length; i++ ) {
+            ids.push( theCards[ i ].id );
+        }
+        this.removeCardsById( ids );
+    };
+    this.removeCardsById = function( ids ) {
+        for ( var i = 0; i < cards.length; i++ ) {
+            for ( var u = 0; u < ids.length; u++ ) {
+                if ( cards[i].id == ids[ u ] ) {
+                    cards.splice( i, 1 );
+                }
+            }
+        }    
+    };
     this.resetHand = function() {
         cards = [];
         cardsWon = [];
@@ -48,9 +64,19 @@ Player.prototype = {
     },
     ask : function( question, answers, callback ) {
         console.log( question, answers );
-        callback( this.id, answers[ 0 ] );
+        if ( question == 'swap' ) {
+            callback( this.id, this.getCards().slice( 0, 3 ) );
+        }
+        else {
+            callback( this.id, answers[ 0 ] );
+        }
     },
     log : function() {
-        console.log( "Player ", this.id, " has on hand ", this.getCards(), " and on stack ", this.getCardsWon() );
+        var cards = this.getCards();
+        var ids = [];
+        for ( var i = 0; i < cards.length; i++ ) {
+            ids.push( cards[ i ].id );
+        }
+        console.log( "Player ", this.id, " has on hand ", ids , " and on stack ", this.getCardsWon() );
     } 
 };
