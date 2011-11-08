@@ -63,7 +63,7 @@ Player.prototype = {
         return false;
     },
     ask : function( question, answers, callback ) {
-        console.log( question, answers );
+        console.log( "Ask player : ", question, answers );
         if ( question == 'swap' ) {
             callback( this.id, this.getCards().slice( 0, 3 ) );
         }

@@ -4,9 +4,15 @@ function Round( players ) {
     this.players = players;   
     this.grande = [ 0, 0, 0, 0];
     
-    //whose to play next
-    this.turn = 0;
+    //plhrofories sxetikes me aythn tn mpaza
+    this.turn = 0;//whose to play next
+    this.cardType = 0;//card type thas is being played this moment
+    this.lastPlayedCards = [];//last played cards
+    this.stack = [];//current stack of cards
+    this.lastPlayedPlayer = 0;// the last player who played and didnt pass
+    
         
+    //#1 - start the round    
     this.start = function() {
         for ( var i = 0; i < 4; i++ ) {
             this.players[ i ].resetHand();
@@ -21,6 +27,8 @@ function Round( players ) {
             this.players[ i ].ask( "grande", [ 'yes', 'no' ], grandeCallback );
         }
     };
+    
+    //#2 - ask for grande
     this.createGrandeCallback = function() {
         var grande = [ -1, -1, -1, -1 ];
         var rnd = this;
@@ -41,6 +49,22 @@ function Round( players ) {
             }       
         };
     }
+    
+    //#3 - after grande
+    this.afterGrande = function() {
+        //moirase 6
+        for ( var i = 0; i < 4; i++ ) {
+            this.players[ i ].addCards( deck.get( 6 ) );
+            this.players[ i ].log();
+        }
+        //swap 3 cards   
+        var swapCallback = this.createSwapCallback();
+        for ( var i = 0; i < 4; i++ ) {
+            this.players[ i ].ask( "swap", [], swapCallback );
+        }
+    }
+    
+    //#4 - ask for swap
     this.createSwapCallback= function() {
         var swap = [ -1, -1, -1, -1 ];
         var cards = [];
@@ -72,18 +96,7 @@ function Round( players ) {
             }
         };
     }
-    this.afterGrande = function() {
-        //moirase 6
-        for ( var i = 0; i < 4; i++ ) {
-            this.players[ i ].addCards( deck.get( 6 ) );
-            this.players[ i ].log();
-        }
-        //swap 3 cards   
-        var swapCallback = this.createSwapCallback();
-        for ( var i = 0; i < 4; i++ ) {
-            this.players[ i ].ask( "swap", [], swapCallback );
-        }
-    }
+    //#5 - after swap
     this.afterSwap = function() {
         //paizei aytos me to mayong
         for ( var i = 0; i < 4; i++ ) {
@@ -96,10 +109,19 @@ function Round( players ) {
         for ( var i = 0; i < 4; i++ ) {
             this.players[ i ].log();
         }
-        //this.players[ this.turn ].ask( "playFirst", [], playCallback );
-        //check if valid combination
-        //set type of cards 
-        //loop : paizei o epomenos  
+        this.players[ this.turn ].ask( "playFirst", [], playFirstCallback ); 
+    }
+    //#6 - play first callback
+    this.playFirstCallback = function( playerId, answer ) {
+        //check if valid combination and get his type
+        //var type = getCombinationType( answer );
+        //if ( valid type ) then
+        //this.cardType = getCombinationType( answer );
+        //this.lastPlayedCards
+        //this.turn = ( this.turn + 1 )%4;
+        //this.players[ this.turn  ].ask( "play", [], playCallback );
+        //else
+        //this.players[ this.turn ].ask( "playFirst", [], playFirstCallback );
     }
 };
 
