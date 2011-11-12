@@ -2,15 +2,26 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    </head>
-    <body>
-    
-    
+        
+        <!-- served by the server -->
+        <script src="http://localhost:1337/socket.io/socket.io.js"></script>
+        
+        <!-- game code -->
         <script type="text/javascript" src="src/gamelogic/card.js"></script>
         <script type="text/javascript" src="src/gamelogic/deck.js"></script>
         <script type="text/javascript" src="src/gamelogic/player.js"></script>
         <script type="text/javascript" src="src/gamelogic/round.js"></script>
         <script type="text/javascript" src="src/gamelogic/game.js"></script>
-            
+    </head>
+    <body>
+    
+        
+        <script>
+          //connect to server
+          var socket = io.connect('http://localhost:1337');
+          socket.on('connected', function (data) {
+            console.log( "Client connected.", data );
+          });
+        </script>
     </body>
 </html>
