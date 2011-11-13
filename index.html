@@ -3,7 +3,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         
-        <!-- served by the server -->
+        <!-- served by the server ( running on port 1337 here ) -->
         <script src="http://localhost:1337/socket.io/socket.io.js"></script>
         
         <!-- game code -->
@@ -17,11 +17,21 @@
     
         
         <script>
-          //connect to server
-          var socket = io.connect('http://localhost:1337');
-          socket.on('connected', function (data) {
-            console.log( "Client connected.", data );
-          });
+            //connect to server
+            var socket = io.connect('http://localhost:1337');
+            var id = -1;
+            var name = "";
+            socket.on('connected', function () {
+                id = socket.socket.sessionid;
+                console.log( "Client " + id + " connected." );                
+            });
+            socket.on( 'askUserInfo', function() {
+                name = prompt( "Enter your name", "User" + Math.round( ( Math.random()*1000000 ) ) );
+                if ( name === null ) {
+                    name = "User" + Math.round( ( Math.random()*1000000 ) );
+                }   
+                socket.emit( "userInfo", { name : name } );                
+            });
         </script>
     </body>
 </html>
